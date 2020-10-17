@@ -1,4 +1,4 @@
-let locArrayDesc = [];
+let locArrayDesc = [];	//used to display the cards
 
 class Locations {
 	name: string;
@@ -6,7 +6,7 @@ class Locations {
 	zip: number;
 	address: string;
 	imageURL: string;
-	timestamp: Date;
+	timestamp: Date;	//date object | used in the sorting algorythm on the subpages asc/desc
 	displayTime: string;
 	
 	constructor(name:string, city:string, zip:number, address:string, imageURL:string, timestamp:Date) {
@@ -16,9 +16,9 @@ class Locations {
 		this.address = address;
 		this.imageURL = imageURL;
 		this.timestamp = timestamp;
-		this.displayTime =timestamp.toLocaleString('de-DE');
-		this.displayTime = this.displayTime.slice(0, this.displayTime.length - 3);
-		locArrayDesc.push(this);
+		this.displayTime =timestamp.toLocaleString('de-DE');	//casting to string using german format
+		this.displayTime = this.displayTime.slice(0, this.displayTime.length - 3);	//slicing seconds from date string
+		locArrayDesc.push(this);	//adds this object to array
 	}
 	/*displays class' properties*/
 	render(){
@@ -43,12 +43,13 @@ class Restaurant extends Locations {
 	homepage: string;
 	
 	constructor(name:string, city:string, zip:number, address:string, imageURL:string, timestamp:Date, telephoneNumber:string, cuisine:string, homepage:string) {
-		super(name, city, zip, address, imageURL ,timestamp);
+		super(name, city, zip, address, imageURL ,timestamp);	//calling super constructor
 		this.telephoneNumber = telephoneNumber;
 		this.cuisine = cuisine;
 		this.homepage = homepage;
 	}
 
+	/*displays class' properties*/
 	render(){
 		return `
 		<div class="card col-sm-12 col-md-6 col-lg-3" style="width: 18rem;">
@@ -68,6 +69,7 @@ class Restaurant extends Locations {
 	}
 }
 
+
 class Events extends Locations {
 	date: string;
 	time: string;
@@ -79,7 +81,7 @@ class Events extends Locations {
 		this.time = time;
 		this.price = price;
 	}
-
+	/*displays class' properties*/
 	render(){
 		return `
 		<div class="card col-sm-12 col-md-6 col-lg-3" style="width: 18rem;">
@@ -119,11 +121,12 @@ new Restaurant("SIXTA", "Vienna", 1050, "Schönbrunner Straße 21", "../images/s
 new Events("Kris Kristofferson", "Vienna", 1150, "Roland Rainer Platz 1", "../images/kris.jpg", new Date(2020, 12, 20, 14, 23), "15.11.2021", "20:00", 58.50);
 new Events("Lenny Kravitz", "Vienna", 1150, "Roland Rainer Platz 1", "../images/lenny.jpg", new Date(2020, 12, 20, 14, 23), "09.12.2029", "19:30", 47.80);
 
-
+/*sorts array in descending order by date*/
 locArrayDesc = locArrayDesc.sort(function(a, b){
 	return b.timestamp - a.timestamp;
 });
 
+/*prints cards*/
 for(let i in locArrayDesc){
 	document.getElementById("locations").innerHTML += locArrayDesc[i].render();
 }
